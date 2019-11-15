@@ -67,6 +67,7 @@
     <ClCompile Include="dsy_gpio.c" />
     <ClCompile Include="dsy_leddriver.c" />
     <ClCompile Include="dsy_qspi.c" />
+    <ClCompile Include="dsy_sdmmc.c" />
     <ClCompile Include="dsy_sdram.c" />
     <ClCompile Include="dsy_switch.c" />
     <ClCompile Include="dsy_system.c" />
@@ -194,6 +195,7 @@
     <ClInclude Include="dsy_leddriver.h" />
     <ClInclude Include="dsy_patch_bsp.h" />
     <ClInclude Include="dsy_qspi.h" />
+    <ClInclude Include="dsy_sdmmc.h" />
     <ClInclude Include="dsy_sdram.h" />
     <ClInclude Include="dsy_seed.h" />
     <ClInclude Include="dsy_switch.h" />
