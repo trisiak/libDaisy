@@ -101,6 +101,15 @@ void dsy_sai_set_callback(dsy_sai_handle*  hsai,
 {
     hsai->callback[sai_index < DSY_SAI_LAST ? sai_index : 0] = cb;
 }
+void dsy_sai_start(dsy_sai_handle* hsai, uint8_t sai_index) 
+{
+    int32_t* txbuf[2] = {sai1_dma_buffer_tx, sai2_dma_buffer_tx};
+    int32_t* rxbuf[2] = {sai1_dma_buffer_rx, sai2_dma_buffer_rx};
+    HAL_SAI_Transmit_DMA(
+        &hsai_BlockA1, (uint8_t*)txbuf[sai_index], hsai->dma_size[sai_index]);
+    HAL_SAI_Receive_DMA(
+        &hsai_BlockA1, (uint8_t*)rxbuf[sai_index], hsai->dma_size[sai_index]);
+}
 
 /* SAI1 init function */
 static void dsy_sai1_init()

@@ -102,6 +102,7 @@ extern "C"
     void     dsy_sai_set_callback(dsy_sai_handle *  hsai,
                                   uint8_t           sai_index,
                                   dsy_sai_callback cb);
+    void     dsy_sai_start(dsy_sai_handle *hsai, uint8_t sai_index);
 
 #ifdef __cplusplus
 }

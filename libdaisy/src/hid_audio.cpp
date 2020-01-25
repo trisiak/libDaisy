@@ -73,7 +73,7 @@ void AudioHandle::Init(Peripheral      per,
     // Fixed for right now...
     codec_wm8731_init(dsy_i2c_hal_handle(audio_int.i2c_), 1, 48000, 16);
 }
-void AudioHandle::Start() {}
+void AudioHandle::Start() { }
 void AudioHandle::Stop() {}
 void AudioHandle::SetCallback(AudioCallback cb)
 {

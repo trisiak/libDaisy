@@ -194,6 +194,7 @@ inline void daisy_seed_init(daisy_handle *daisy_seed)
                                   &daisy_seed->sai_handle,
                                   &daisy_seed->i2c1_handle,
                                   &daisy_seed->i2c2_handle);
+    daisy_seed->audio_handle.SetPassThru();
     //	daisy_seed->audio_handle.sai = &daisy_seed->sai_handle;
     //	daisy_seed->audio_handle.dev0_i2c = &daisy_seed->i2c2_handle;
     //	daisy_seed->audio_handle.dev1_i2c = &daisy_seed->i2c1_handle;
