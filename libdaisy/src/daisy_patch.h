@@ -98,26 +98,26 @@ class daisy_patch
 // ### StartAudio
 // Starts the audio calling the specified callback
 // ~~~~
-	void StartAudio(dsy_audio_callback cb) 
+//	void StartAudio(dsy_audio_callback cb) 
 // ~~~~
-	{
-		dsy_audio_set_callback(DSY_AUDIO_INTERNAL, cb);
-		dsy_audio_start(DSY_AUDIO_INTERNAL);
-	}
+//	{
+//		dsy_audio_set_callback(DSY_AUDIO_INTERNAL, cb);
+//		dsy_audio_start(DSY_AUDIO_INTERNAL);
+//	}
 // ### ChangeAudioCallback
 // Changes what callback is being called when audio is ready for new data.
 // ~~~~
-	void ChangeAudioCallback(dsy_audio_callback cb) 
+//	void ChangeAudioCallback(dsy_audio_callback cb) 
 // ~~~~
-	{
-		dsy_audio_set_callback(DSY_AUDIO_INTERNAL, cb);
-	}
+//    {
+        //		dsy_audio_set_callback(DSY_AUDIO_INTERNAL, cb);
+//    }
 
-// ## LED helpers
-// Worth noting that all changes to LED brightness only apply UpdateLeds() is called.
-// ### SetLed
-// Sets the brightness of one of the LEDs 
-// ~~~~
+    // ## LED helpers
+    // Worth noting that all changes to LED brightness only apply UpdateLeds() is called.
+    // ### SetLed
+    // Sets the brightness of one of the LEDs
+    // ~~~~
 	inline void SetLed(led ld, float bright) 
 // ~~~~
 	{
