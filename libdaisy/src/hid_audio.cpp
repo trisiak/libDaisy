@@ -52,10 +52,13 @@ void AudioHandle::Init(Peripheral      per,
     sr_         = AudioHandle::SR_48K;
     channels_   = 2;
     per_        = per;
-    dsy_sai_init_from_handle(sai);
+    sai_        = sai;
+    sai_->dma_size[DSY_SAI_1] = block_size_ * channels_ * 2;
+    sai_->dma_size[DSY_SAI_2] = block_size_ * channels_ * 2;
+    dsy_sai_init_from_handle(sai_);
     // Set sai callbacks
-    dsy_sai_set_callback(sai, DSY_SAI_1, internal_callback);
-    dsy_sai_set_callback(sai, DSY_SAI_2, internal_callback);
+    dsy_sai_set_callback(sai_, DSY_SAI_1, internal_callback);
+    dsy_sai_set_callback(sai_, DSY_SAI_2, internal_callback);
     switch(per)
     {
         case AUDIO_PERIPHERAL_INTERNAL:
@@ -73,7 +76,11 @@ void AudioHandle::Init(Peripheral      per,
     // Fixed for right now...
     codec_wm8731_init(dsy_i2c_hal_handle(audio_int.i2c_), 1, 48000, 16);
 }
-void AudioHandle::Start() { }
+void AudioHandle::Start()
+{
+    dsy_sai_start(sai_,
+                  per_ == AUDIO_PERIPHERAL_EXTERNAL ? DSY_SAI_2 : DSY_SAI_1);
+}
 void AudioHandle::Stop() {}
 void AudioHandle::SetCallback(AudioCallback cb)
 {

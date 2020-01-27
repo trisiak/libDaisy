@@ -22,21 +22,23 @@ int main(void)
 {
 	// Initialize Hardware
 	daisy_seed_init(&hw);
-	for(uint32_t i = 0; i < TEST_BUFF_SIZE; i++) 
-	{
-		test_buff[i] = i;
-	}
-	for(uint32_t i = 0; i < TEST_BUFF_SIZE; i++) 
-	{
-		if(test_buff[i] != i) 
-		{
-			asm("bkpt 255");
-		}
-	}
-	dsy_tim_start();
-	
-//	dsy_audio_set_callback(DSY_AUDIO_INTERNAL, bad_callback);
-//	dsy_audio_start(DSY_AUDIO_INTERNAL);
+//	for(uint32_t i = 0; i < TEST_BUFF_SIZE; i++) 
+//	{
+//		test_buff[i] = i;
+//	}
+//	for(uint32_t i = 0; i < TEST_BUFF_SIZE; i++) 
+//	{
+//		if(test_buff[i] != i) 
+//		{
+//			asm("bkpt 255");
+//		}
+//	}
+//	dsy_tim_start();
+    hw.audio_handle.SetCallback(passthru);
+    hw.audio_handle.Start();
+
+    //	dsy_audio_set_callback(DSY_AUDIO_INTERNAL, bad_callback);
+    //	dsy_audio_start(DSY_AUDIO_INTERNAL);
 	while(1) {}
 }
 
