@@ -15,9 +15,16 @@ static void Error_Handler()
     asm("bkpt 255");
 }
 
-void SpiHandle::Init()
+void SpiHandle::Init(SpiPeriph periph, )
 {
-    hspi1.Instance               = SPI1;
+    switch(periph)
+    {
+        case SPI_PERIPH_1: 
+            hspi1.Instance = SPI1; 
+            break;
+    }
+
+    //hspi1.Instance               = SPI1;
     hspi1.Init.Mode              = SPI_MODE_MASTER;
     hspi1.Init.Direction         = SPI_DIRECTION_2LINES_TXONLY;
     hspi1.Init.DataSize          = SPI_DATASIZE_8BIT;
@@ -89,8 +96,8 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* spiHandle)
         HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
         // Sck and CS
-        GPIO_InitStruct.Pin       = GPIO_PIN_11;
-        if(spiHandle->Init.NSS != SPI_NSS_SOFT) 
+        GPIO_InitStruct.Pin = GPIO_PIN_11;
+        if(spiHandle->Init.NSS != SPI_NSS_SOFT)
         {
             GPIO_InitStruct.Pin |= GPIO_PIN_10;
         }
