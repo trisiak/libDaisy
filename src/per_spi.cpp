@@ -15,30 +15,101 @@ static void Error_Handler()
     asm("bkpt 255");
 }
 
-void SpiHandle::Init(SpiPeriph periph, )
+void SpiHandle::Init(SpiPeriph   periph,
+                     SpiNss      nss,
+                     SpiBaudRate baudrate,
+                     SpiDataSize data_size)
 {
     switch(periph)
     {
-        case SPI_PERIPH_1: 
-            hspi1.Instance = SPI1; 
+        case SPI_PERIPH_1: hspi1.Instance = SPI1; break;
+        case SPI_PERIPH_3: hspi1.Instance = SPI3; break;
+        case SPI_PERIPH_6: hspi1.Instance = SPI6; break;
+    }
+
+    switch(data_size)
+    {
+        case SPI_DATASIZE_4: hspi1.Init.DataSize = SPI_DATASIZE_4BIT; break;
+        case SPI_DATASIZE_5: hspi1.Init.DataSize = SPI_DATASIZE_5BIT; break;
+        case SPI_DATASIZE_6: hspi1.Init.DataSize = SPI_DATASIZE_6BIT; break;
+        case SPI_DATASIZE_7: hspi1.Init.DataSize = SPI_DATASIZE_7BIT; break;
+        case SPI_DATASIZE_8: hspi1.Init.DataSize = SPI_DATASIZE_8BIT; break;
+        case SPI_DATASIZE_9: hspi1.Init.DataSize = SPI_DATASIZE_9BIT; break;
+        case SPI_DATASIZE_10: hspi1.Init.DataSize = SPI_DATASIZE_10BIT; break;
+        case SPI_DATASIZE_11: hspi1.Init.DataSize = SPI_DATASIZE_11BIT; break;
+        case SPI_DATASIZE_12: hspi1.Init.DataSize = SPI_DATASIZE_12BIT; break;
+        case SPI_DATASIZE_13: hspi1.Init.DataSize = SPI_DATASIZE_13BIT; break;
+        case SPI_DATASIZE_14: hspi1.Init.DataSize = SPI_DATASIZE_14BIT; break;
+        case SPI_DATASIZE_15: hspi1.Init.DataSize = SPI_DATASIZE_15BIT; break;
+        case SPI_DATASIZE_16: hspi1.Init.DataSize = SPI_DATASIZE_16BIT; break;
+        case SPI_DATASIZE_17: hspi1.Init.DataSize = SPI_DATASIZE_17BIT; break;
+        case SPI_DATASIZE_18: hspi1.Init.DataSize = SPI_DATASIZE_18BIT; break;
+        case SPI_DATASIZE_19: hspi1.Init.DataSize = SPI_DATASIZE_19BIT; break;
+        case SPI_DATASIZE_20: hspi1.Init.DataSize = SPI_DATASIZE_20BIT; break;
+        case SPI_DATASIZE_21: hspi1.Init.DataSize = SPI_DATASIZE_21BIT; break;
+        case SPI_DATASIZE_22: hspi1.Init.DataSize = SPI_DATASIZE_22BIT; break;
+        case SPI_DATASIZE_23: hspi1.Init.DataSize = SPI_DATASIZE_23BIT; break;
+        case SPI_DATASIZE_24: hspi1.Init.DataSize = SPI_DATASIZE_24BIT; break;
+        case SPI_DATASIZE_25: hspi1.Init.DataSize = SPI_DATASIZE_25BIT; break;
+        case SPI_DATASIZE_26: hspi1.Init.DataSize = SPI_DATASIZE_26BIT; break;
+        case SPI_DATASIZE_27: hspi1.Init.DataSize = SPI_DATASIZE_27BIT; break;
+        case SPI_DATASIZE_28: hspi1.Init.DataSize = SPI_DATASIZE_28BIT; break;
+        case SPI_DATASIZE_29: hspi1.Init.DataSize = SPI_DATASIZE_29BIT; break;
+        case SPI_DATASIZE_30: hspi1.Init.DataSize = SPI_DATASIZE_30BIT; break;
+        case SPI_DATASIZE_31: hspi1.Init.DataSize = SPI_DATASIZE_31BIT; break;
+        case SPI_DATASIZE_32: hspi1.Init.DataSize = SPI_DATASIZE_32BIT; break;
+    }
+
+    switch(nss)
+    {
+        case SPI_NSS_SOFT: hspi1.Init.NSS = SPI_NSS_SOFT; break;
+        case SPI_NSS_HARD_IN: hspi1.Init.NSS = SPI_NSS_HARD_INPUT; break;
+        case SPI_NSS_HARD_OUT: hspi1.Init.NSS = SPI_NSS_HARD_OUTPUT; break;
+    }
+
+    switch(baudrate)
+    {
+        case SPI_BAUDRATE_2:
+            hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
+            break;
+        case SPI_BAUDRATE_4:
+            hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_4;
+            break;
+        case SPI_BAUDRATE_8:
+            hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_8;
+            break;
+        case SPI_BAUDRATE_16:
+            hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_16;
+            break;
+        case SPI_BAUDRATE_32:
+            hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_32;
+            break;
+        case SPI_BAUDRATE_64:
+            hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_64;
+            break;
+        case SPI_BAUDRATE_128:
+            hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_128;
+            break;
+        case SPI_BAUDRATE_256:
+            hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_256;
             break;
     }
 
     //hspi1.Instance               = SPI1;
-    hspi1.Init.Mode              = SPI_MODE_MASTER;
-    hspi1.Init.Direction         = SPI_DIRECTION_2LINES_TXONLY;
-    hspi1.Init.DataSize          = SPI_DATASIZE_8BIT;
-    hspi1.Init.CLKPolarity       = SPI_POLARITY_LOW;
-    hspi1.Init.CLKPhase          = SPI_PHASE_1EDGE;
-    hspi1.Init.NSS               = SPI_NSS_HARD_OUTPUT;
-    hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_8;
-    hspi1.Init.FirstBit          = SPI_FIRSTBIT_MSB;
-    hspi1.Init.TIMode            = SPI_TIMODE_DISABLE;
-    hspi1.Init.CRCCalculation    = SPI_CRCCALCULATION_DISABLE;
-    hspi1.Init.CRCPolynomial     = 0x0;
-    hspi1.Init.NSSPMode          = SPI_NSS_PULSE_ENABLE;
-    hspi1.Init.NSSPolarity       = SPI_NSS_POLARITY_LOW;
-    hspi1.Init.FifoThreshold     = SPI_FIFO_THRESHOLD_01DATA;
+    hspi1.Init.Mode      = SPI_MODE_MASTER;
+    hspi1.Init.Direction = SPI_DIRECTION_2LINES_TXONLY;
+    //    hspi1.Init.DataSize    = SPI_DATASIZE_8BIT;
+    hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
+    hspi1.Init.CLKPhase    = SPI_PHASE_1EDGE;
+    //hspi1.Init.NSS               = SPI_NSS_HARD_OUTPUT;
+    //hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_8;
+    hspi1.Init.FirstBit       = SPI_FIRSTBIT_MSB;
+    hspi1.Init.TIMode         = SPI_TIMODE_DISABLE;
+    hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+    hspi1.Init.CRCPolynomial  = 0x0;
+    hspi1.Init.NSSPMode       = SPI_NSS_PULSE_ENABLE;
+    hspi1.Init.NSSPolarity    = SPI_NSS_POLARITY_LOW;
+    hspi1.Init.FifoThreshold  = SPI_FIFO_THRESHOLD_01DATA;
     hspi1.Init.TxCRCInitializationPattern
         = SPI_CRC_INITIALIZATION_ALL_ZERO_PATTERN;
     hspi1.Init.RxCRCInitializationPattern
