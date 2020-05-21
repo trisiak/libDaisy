@@ -71,26 +71,26 @@ class SpiHandle
         CS_HARD_OUT,
     };
 
-    enum BaudRate
+    enum ClockDivider
     {
-        BAUDRATE_2,
-        BAUDRATE_4,
-        BAUDRATE_8,
-        BAUDRATE_16,
-        BAUDRATE_32,
-        BAUDRATE_64,
-        BAUDRATE_128,
-        BAUDRATE_256,
+        CLOCK_DIVIDE_2,
+        CLOCK_DIVIDE_4,
+        CLOCK_DIVIDE_8,
+        CLOCK_DIVIDE_16,
+        CLOCK_DIVIDE_32,
+        CLOCK_DIVIDE_64,
+        CLOCK_DIVIDE_128,
+        CLOCK_DIVIDE_256,
     };
 
   public:
     SpiHandle() {}
     ~SpiHandle() {}
 
-    void Init(Periph     periph,
-              ChipSelect chip_select,
-              BaudRate   baudrate,
-              DataSize   data_size);
+    void Init(Periph       periph,
+              ChipSelect   chip_select,
+              ClockDivider clock_divide,
+              DataSize     data_size);
 
     void BlockingTransmit(uint8_t *buff, size_t size);
 

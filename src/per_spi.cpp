@@ -15,10 +15,10 @@ static void Error_Handler()
     asm("bkpt 255");
 }
 
-void SpiHandle::Init(Periph     periph,
-                     ChipSelect chip_select,
-                     BaudRate   baudrate,
-                     DataSize   data_size)
+void SpiHandle::Init(Periph       periph,
+                     ChipSelect   chip_select,
+                     ClockDivider clock_divide,
+                     DataSize     data_size)
 {
     switch(periph)
     {
@@ -70,30 +70,30 @@ void SpiHandle::Init(Periph     periph,
         default: hspi1.Init.NSS = SPI_NSS_HARD_OUTPUT; break;
     }
 
-    switch(baudrate)
+    switch(clock_divide)
     {
-        case BAUDRATE_2:
+        case CLOCK_DIVIDE_2:
             hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
             break;
-        case BAUDRATE_4:
+        case CLOCK_DIVIDE_4:
             hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_4;
             break;
-        case BAUDRATE_8:
+        case CLOCK_DIVIDE_8:
             hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_8;
             break;
-        case BAUDRATE_16:
+        case CLOCK_DIVIDE_16:
             hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_16;
             break;
-        case BAUDRATE_32:
+        case CLOCK_DIVIDE_32:
             hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_32;
             break;
-        case BAUDRATE_64:
+        case CLOCK_DIVIDE_64:
             hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_64;
             break;
-        case BAUDRATE_128:
+        case CLOCK_DIVIDE_128:
             hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_128;
             break;
-        case BAUDRATE_256:
+        case CLOCK_DIVIDE_256:
             hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_256;
             break;
         default: hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_8; break;
