@@ -12,6 +12,8 @@ static SPI_HandleTypeDef hspi1;
 static SPI_HandleTypeDef hspi3;
 static SPI_HandleTypeDef hspi6;
 
+
+
 static void Error_Handler()
 {
     asm("bkpt 255");
@@ -30,6 +32,11 @@ void SpiHandle::Init(Periph       periph,
         default: hspi1.Instance = SPI1; break;
     }
 
+    if(data_size-1 > SPI_DATASIZE_4BIT && data_size-1 < SPI_DATASIZE_32BIT)
+        hspi1.Init.DataSize = data_size - 1;
+    else
+        hspi1.Init.DataSize = SPI_DATASIZE_8BIT;
+    
     switch(data_size)
     {
         case 4: hspi1.Init.DataSize = SPI_DATASIZE_4BIT; break;
@@ -62,7 +69,7 @@ void SpiHandle::Init(Periph       periph,
         case 31: hspi1.Init.DataSize = SPI_DATASIZE_31BIT; break;
         case 32: hspi1.Init.DataSize = SPI_DATASIZE_32BIT; break;
         default: hspi1.Init.DataSize = SPI_DATASIZE_8BIT; break;
-    }
+        }
 
     switch(chip_select)
     {
