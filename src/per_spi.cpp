@@ -20,7 +20,7 @@ static void Error_Handler()
 void SpiHandle::Init(Periph       periph,
                      ChipSelect   chip_select,
                      ClockDivider clock_divide,
-                     uint8_t      data_size);
+                     uint8_t      data_size)
 {
     switch(periph)
     {
@@ -229,7 +229,7 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* spiHandle)
         __HAL_RCC_GPIOB_CLK_ENABLE();
         __HAL_RCC_GPIOG_CLK_ENABLE();
 
-        /**SPI3 GPIO Configuration    
+        /**SPI6 GPIO Configuration    
     PB2     ------> SPI6_MOSI
     PB4 (NJTRST)     ------> SPI6_MISO
     PG11     ------> SPI6_SCK
