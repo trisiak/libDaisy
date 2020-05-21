@@ -5,38 +5,36 @@
 // - fix up rest of lib so that we can add a spi_handle map to the hal map
 // - Add configuration for standard spi stuff.
 
-
 using namespace daisy;
 
-static SPI_HandleTypeDef hspi1;
-static SPI_HandleTypeDef hspi3;
-static SPI_HandleTypeDef hspi6;
+struct SpiInstance
+{
+    SPI_HandleTypeDef     hspi;
+    SpiHandle ::SpiConfig config;
+};
 
-
+static SpiInstance Instance_1, Instance_3, Instance_6;
 
 static void Error_Handler()
 {
     asm("bkpt 255");
 }
 
-void SpiHandle::Init(Periph       periph,
-                     ChipSelect   chip_select,
-                     ClockDivider clock_divide,
-                     uint8_t      data_size)
+void SpiHandle::Init(SpiConfig *config)
 {
-    switch(periph)
+    switch(config->periph)
     {
-        case PERIPH_1: hspi1.Instance = SPI1; break;
-        case PERIPH_3: hspi1.Instance = SPI3; break;
-        case PERIPH_6: hspi1.Instance = SPI6; break;
-        default: hspi1.Instance = SPI1; break;
+        case PERIPH_1: Instance_1.hspi.Instance = SPI1; break;
+        case PERIPH_3: Instance_3.hspi.Instance = SPI3; break;
+        case PERIPH_6: Instance_6.hspi.Instance = SPI6; break;
+        default: Instance_1.hspi.Instance = SPI1; break;
     }
 
-    if(data_size-1 > SPI_DATASIZE_4BIT && data_size-1 < SPI_DATASIZE_32BIT)
+    if(data_size - 1 > SPI_DATASIZE_4BIT && data_size - 1 < SPI_DATASIZE_32BIT)
         hspi1.Init.DataSize = data_size - 1;
     else
         hspi1.Init.DataSize = SPI_DATASIZE_8BIT;
-    
+
     switch(data_size)
     {
         case 4: hspi1.Init.DataSize = SPI_DATASIZE_4BIT; break;
@@ -69,7 +67,7 @@ void SpiHandle::Init(Periph       periph,
         case 31: hspi1.Init.DataSize = SPI_DATASIZE_31BIT; break;
         case 32: hspi1.Init.DataSize = SPI_DATASIZE_32BIT; break;
         default: hspi1.Init.DataSize = SPI_DATASIZE_8BIT; break;
-        }
+    }
 
     switch(chip_select)
     {
