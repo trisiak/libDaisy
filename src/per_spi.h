@@ -58,8 +58,7 @@ class SpiHandle
     void Init(Periph       periph,
               ChipSelect   chip_select,
               ClockDivider clock_divide,
-              uint8_t      data_size,
-              dsy_gpio_pin* pins);
+              uint8_t      data_size);
 
     void BlockingTransmit(uint8_t *buff, size_t size);
 
