@@ -20,7 +20,7 @@ static void Error_Handler()
 void SpiHandle::Init(Periph       periph,
                      ChipSelect   chip_select,
                      ClockDivider clock_divide,
-                     DataSize     data_size)
+                     uint8_t      data_size)
 {
     switch(periph)
     {
@@ -32,35 +32,35 @@ void SpiHandle::Init(Periph       periph,
 
     switch(data_size)
     {
-        case DATASIZE_4: hspi1.Init.DataSize = SPI_DATASIZE_4BIT; break;
-        case DATASIZE_5: hspi1.Init.DataSize = SPI_DATASIZE_5BIT; break;
-        case DATASIZE_6: hspi1.Init.DataSize = SPI_DATASIZE_6BIT; break;
-        case DATASIZE_7: hspi1.Init.DataSize = SPI_DATASIZE_7BIT; break;
-        case DATASIZE_8: hspi1.Init.DataSize = SPI_DATASIZE_8BIT; break;
-        case DATASIZE_9: hspi1.Init.DataSize = SPI_DATASIZE_9BIT; break;
-        case DATASIZE_10: hspi1.Init.DataSize = SPI_DATASIZE_10BIT; break;
-        case DATASIZE_11: hspi1.Init.DataSize = SPI_DATASIZE_11BIT; break;
-        case DATASIZE_12: hspi1.Init.DataSize = SPI_DATASIZE_12BIT; break;
-        case DATASIZE_13: hspi1.Init.DataSize = SPI_DATASIZE_13BIT; break;
-        case DATASIZE_14: hspi1.Init.DataSize = SPI_DATASIZE_14BIT; break;
-        case DATASIZE_15: hspi1.Init.DataSize = SPI_DATASIZE_15BIT; break;
-        case DATASIZE_16: hspi1.Init.DataSize = SPI_DATASIZE_16BIT; break;
-        case DATASIZE_17: hspi1.Init.DataSize = SPI_DATASIZE_17BIT; break;
-        case DATASIZE_18: hspi1.Init.DataSize = SPI_DATASIZE_18BIT; break;
-        case DATASIZE_19: hspi1.Init.DataSize = SPI_DATASIZE_19BIT; break;
-        case DATASIZE_20: hspi1.Init.DataSize = SPI_DATASIZE_20BIT; break;
-        case DATASIZE_21: hspi1.Init.DataSize = SPI_DATASIZE_21BIT; break;
-        case DATASIZE_22: hspi1.Init.DataSize = SPI_DATASIZE_22BIT; break;
-        case DATASIZE_23: hspi1.Init.DataSize = SPI_DATASIZE_23BIT; break;
-        case DATASIZE_24: hspi1.Init.DataSize = SPI_DATASIZE_24BIT; break;
-        case DATASIZE_25: hspi1.Init.DataSize = SPI_DATASIZE_25BIT; break;
-        case DATASIZE_26: hspi1.Init.DataSize = SPI_DATASIZE_26BIT; break;
-        case DATASIZE_27: hspi1.Init.DataSize = SPI_DATASIZE_27BIT; break;
-        case DATASIZE_28: hspi1.Init.DataSize = SPI_DATASIZE_28BIT; break;
-        case DATASIZE_29: hspi1.Init.DataSize = SPI_DATASIZE_29BIT; break;
-        case DATASIZE_30: hspi1.Init.DataSize = SPI_DATASIZE_30BIT; break;
-        case DATASIZE_31: hspi1.Init.DataSize = SPI_DATASIZE_31BIT; break;
-        case DATASIZE_32: hspi1.Init.DataSize = SPI_DATASIZE_32BIT; break;
+        case 4: hspi1.Init.DataSize = SPI_DATASIZE_4BIT; break;
+        case 5: hspi1.Init.DataSize = SPI_DATASIZE_5BIT; break;
+        case 6: hspi1.Init.DataSize = SPI_DATASIZE_6BIT; break;
+        case 7: hspi1.Init.DataSize = SPI_DATASIZE_7BIT; break;
+        case 8: hspi1.Init.DataSize = SPI_DATASIZE_8BIT; break;
+        case 9: hspi1.Init.DataSize = SPI_DATASIZE_9BIT; break;
+        case 10: hspi1.Init.DataSize = SPI_DATASIZE_10BIT; break;
+        case 11: hspi1.Init.DataSize = SPI_DATASIZE_11BIT; break;
+        case 12: hspi1.Init.DataSize = SPI_DATASIZE_12BIT; break;
+        case 13: hspi1.Init.DataSize = SPI_DATASIZE_13BIT; break;
+        case 14: hspi1.Init.DataSize = SPI_DATASIZE_14BIT; break;
+        case 15: hspi1.Init.DataSize = SPI_DATASIZE_15BIT; break;
+        case 16: hspi1.Init.DataSize = SPI_DATASIZE_16BIT; break;
+        case 17: hspi1.Init.DataSize = SPI_DATASIZE_17BIT; break;
+        case 18: hspi1.Init.DataSize = SPI_DATASIZE_18BIT; break;
+        case 19: hspi1.Init.DataSize = SPI_DATASIZE_19BIT; break;
+        case 20: hspi1.Init.DataSize = SPI_DATASIZE_20BIT; break;
+        case 21: hspi1.Init.DataSize = SPI_DATASIZE_21BIT; break;
+        case 22: hspi1.Init.DataSize = SPI_DATASIZE_22BIT; break;
+        case 23: hspi1.Init.DataSize = SPI_DATASIZE_23BIT; break;
+        case 24: hspi1.Init.DataSize = SPI_DATASIZE_24BIT; break;
+        case 25: hspi1.Init.DataSize = SPI_DATASIZE_25BIT; break;
+        case 26: hspi1.Init.DataSize = SPI_DATASIZE_26BIT; break;
+        case 27: hspi1.Init.DataSize = SPI_DATASIZE_27BIT; break;
+        case 28: hspi1.Init.DataSize = SPI_DATASIZE_28BIT; break;
+        case 29: hspi1.Init.DataSize = SPI_DATASIZE_29BIT; break;
+        case 30: hspi1.Init.DataSize = SPI_DATASIZE_30BIT; break;
+        case 31: hspi1.Init.DataSize = SPI_DATASIZE_31BIT; break;
+        case 32: hspi1.Init.DataSize = SPI_DATASIZE_32BIT; break;
         default: hspi1.Init.DataSize = SPI_DATASIZE_8BIT; break;
     }
 

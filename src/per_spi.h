@@ -31,39 +31,6 @@ class SpiHandle
         PIN_MISO,
     };
 
-    enum DataSize
-    {
-        DATASIZE_4,
-        DATASIZE_5,
-        DATASIZE_6,
-        DATASIZE_7,
-        DATASIZE_8,
-        DATASIZE_9,
-        DATASIZE_10,
-        DATASIZE_11,
-        DATASIZE_12,
-        DATASIZE_13,
-        DATASIZE_14,
-        DATASIZE_15,
-        DATASIZE_16,
-        DATASIZE_17,
-        DATASIZE_18,
-        DATASIZE_19,
-        DATASIZE_20,
-        DATASIZE_21,
-        DATASIZE_22,
-        DATASIZE_23,
-        DATASIZE_24,
-        DATASIZE_25,
-        DATASIZE_26,
-        DATASIZE_27,
-        DATASIZE_28,
-        DATASIZE_29,
-        DATASIZE_30,
-        DATASIZE_31,
-        DATASIZE_32,
-    };
-
     enum ChipSelect
     {
         CS_SOFT,
@@ -90,7 +57,7 @@ class SpiHandle
     void Init(Periph       periph,
               ChipSelect   chip_select,
               ClockDivider clock_divide,
-              DataSize     data_size);
+              uint8_t       data_size);
 
     void BlockingTransmit(uint8_t *buff, size_t size);
 
