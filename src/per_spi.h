@@ -21,6 +21,7 @@ class SpiHandle
         PERIPH_1,
         PERIPH_3,
         PERIPH_6,
+        PERIPH_LAST,
     };
 
     enum Pin
@@ -65,7 +66,7 @@ class SpiHandle
     };
 
     void
-    Init(SpiConfig conf);
+    Init(SpiConfig config);
 
     void BlockingTransmit(uint8_t *buff, size_t size);
 
