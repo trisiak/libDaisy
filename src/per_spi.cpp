@@ -25,6 +25,7 @@ void SpiHandle::Init(Periph     periph,
         case PERIPH_1: hspi1.Instance = SPI1; break;
         case PERIPH_3: hspi1.Instance = SPI3; break;
         case PERIPH_6: hspi1.Instance = SPI6; break;
+        default: hspi1.Instance = SPI1; break;
     }
 
     switch(data_size)
@@ -58,13 +59,15 @@ void SpiHandle::Init(Periph     periph,
         case DATASIZE_30: hspi1.Init.DataSize = SPI_DATASIZE_30BIT; break;
         case DATASIZE_31: hspi1.Init.DataSize = SPI_DATASIZE_31BIT; break;
         case DATASIZE_32: hspi1.Init.DataSize = SPI_DATASIZE_32BIT; break;
+        default: hspi1.Init.DataSize = SPI_DATASIZE_8BIT; break;
     }
 
     switch(chip_select)
     {
-        case CHIP_SELECT_SOFT: hspi1.Init.NSS = SPI_NSS_SOFT; break;
-        case CHIP_SELECT_HARD_IN: hspi1.Init.NSS = SPI_NSS_HARD_INPUT; break;
-        case CHIP_SELECT_HARD_OUT: hspi1.Init.NSS = SPI_NSS_HARD_OUTPUT; break;
+        case CS_SOFT: hspi1.Init.NSS = SPI_NSS_SOFT; break;
+        case CS_HARD_IN: hspi1.Init.NSS = SPI_NSS_HARD_INPUT; break;
+        case CS_HARD_OUT: hspi1.Init.NSS = SPI_NSS_HARD_OUTPUT; break;
+        default: hspi1.Init.NSS = SPI_NSS_HARD_OUTPUT; break;
     }
 
     switch(baudrate)
@@ -93,6 +96,7 @@ void SpiHandle::Init(Periph     periph,
         case BAUDRATE_256:
             hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_256;
             break;
+        default: hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_8; break;
     }
 
     //hspi1.Instance               = SPI1;
