@@ -65,13 +65,11 @@ class SpiHandle
         dsy_gpio_pin *pins;
     };
 
-    void
-    Init(SpiConfig config);
+    void Init(SpiConfig config);
 
     void BlockingTransmit(uint8_t *buff, size_t size);
 
   private:
-    dsy_gpio_pin pins_[PIN_LAST];
 };
 
 } // namespace daisy
