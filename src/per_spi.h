@@ -29,6 +29,7 @@ class SpiHandle
         PIN_SCK,
         PIN_MOSI,
         PIN_MISO,
+        PIN_LAST,
     };
 
     enum ChipSelect
@@ -57,7 +58,8 @@ class SpiHandle
     void Init(Periph       periph,
               ChipSelect   chip_select,
               ClockDivider clock_divide,
-              uint8_t       data_size);
+              uint8_t      data_size,
+              dsy_gpio_pin* pins);
 
     void BlockingTransmit(uint8_t *buff, size_t size);
 

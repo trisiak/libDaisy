@@ -17,10 +17,11 @@ static void Error_Handler()
     asm("bkpt 255");
 }
 
-void SpiHandle::Init(Periph       periph,
-                     ChipSelect   chip_select,
-                     ClockDivider clock_divide,
-                     uint8_t      data_size)
+void SpiHandle::Init(Periph        periph,
+                     ChipSelect    chip_select,
+                     ClockDivider  clock_divide,
+                     uint8_t       data_size,
+                     dsy_gpio_pin* pins);
 {
     switch(periph)
     {
