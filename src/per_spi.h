@@ -16,81 +16,81 @@ namespace daisy
 {
 class SpiHandle
 {
-    enum SpiPeriph
+    enum Periph
     {
-        SPI_PERIPH_1,
-        SPI_PERIPH_3,
-        SPI_PERIPH_6,
+        PERIPH_1,
+        PERIPH_3,
+        PERIPH_6,
     };
 
-    enum SpiPin
+    enum Pin
     {
-        SPI_PIN_CS,
-        SPI_PIN_SCK,
-        SPI_PIN_MOSI,
-        SPI_PIN_MISO,
+        PIN_CS,
+        PIN_SCK,
+        PIN_MOSI,
+        PIN_MISO,
     };
 
-    enum SpiDataSize
+    enum DataSize
     {
-        SPI_DATASIZE_4,
-        SPI_DATASIZE_5,
-        SPI_DATASIZE_6,
-        SPI_DATASIZE_7,
-        SPI_DATASIZE_8,
-        SPI_DATASIZE_9,
-        SPI_DATASIZE_10,
-        SPI_DATASIZE_11,
-        SPI_DATASIZE_12,
-        SPI_DATASIZE_13,
-        SPI_DATASIZE_14,
-        SPI_DATASIZE_15,
-        SPI_DATASIZE_16,
-        SPI_DATASIZE_17,
-        SPI_DATASIZE_18,
-        SPI_DATASIZE_19,
-        SPI_DATASIZE_20,
-        SPI_DATASIZE_21,
-        SPI_DATASIZE_22,
-        SPI_DATASIZE_23,
-        SPI_DATASIZE_24,
-        SPI_DATASIZE_25,
-        SPI_DATASIZE_26,
-        SPI_DATASIZE_27,
-        SPI_DATASIZE_28,
-        SPI_DATASIZE_29,
-        SPI_DATASIZE_30,
-        SPI_DATASIZE_31,
-        SPI_DATASIZE_32,
+        DATASIZE_4,
+        DATASIZE_5,
+        DATASIZE_6,
+        DATASIZE_7,
+        DATASIZE_8,
+        DATASIZE_9,
+        DATASIZE_10,
+        DATASIZE_11,
+        DATASIZE_12,
+        DATASIZE_13,
+        DATASIZE_14,
+        DATASIZE_15,
+        DATASIZE_16,
+        DATASIZE_17,
+        DATASIZE_18,
+        DATASIZE_19,
+        DATASIZE_20,
+        DATASIZE_21,
+        DATASIZE_22,
+        DATASIZE_23,
+        DATASIZE_24,
+        DATASIZE_25,
+        DATASIZE_26,
+        DATASIZE_27,
+        DATASIZE_28,
+        DATASIZE_29,
+        DATASIZE_30,
+        DATASIZE_31,
+        DATASIZE_32,
     };
 
-    enum SpiNss
+    enum ChipSelect
     {
-        SPI_NSS_SOFT,
-        SPI_NSS_HARD_IN,
-        SPI_NSS_HARD_OUT,
+        CHIP_SELECT_SOFT,
+        CHIP_SELECT_HARD_IN,
+        CHIP_SELECT_HARD_OUT,
     };
 
-    enum SpiBaudRate
+    enum BaudRate
     {
-        SPI_BAUDRATE_2,
-        SPI_BAUDRATE_4,
-        SPI_BAUDRATE_8,
-        SPI_BAUDRATE_16,
-        SPI_BAUDRATE_32,
-        SPI_BAUDRATE_64,
-        SPI_BAUDRATE_128,
-        SPI_BAUDRATE_256,
+        BAUDRATE_2,
+        BAUDRATE_4,
+        BAUDRATE_8,
+        BAUDRATE_16,
+        BAUDRATE_32,
+        BAUDRATE_64,
+        BAUDRATE_128,
+        BAUDRATE_256,
     };
 
   public:
     SpiHandle() {}
     ~SpiHandle() {}
 
-    void Init(SpiPeriph   periph,
-              SpiNss      nss,
-              SpiBaudRate baudrate,
-              SpiDataSize data_size);
+    void Init(Periph     periph,
+              ChipSelect chip_select,
+              BaudRate   baudrate,
+              DataSize   data_size);
 
     void BlockingTransmit(uint8_t *buff, size_t size);
 
