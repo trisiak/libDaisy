@@ -9,6 +9,8 @@
 using namespace daisy;
 
 static SPI_HandleTypeDef hspi1;
+static SPI_HandleTypeDef hspi3;
+static SPI_HandleTypeDef hspi6;
 
 static void Error_Handler()
 {
