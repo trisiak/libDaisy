@@ -66,9 +66,9 @@ class SpiHandle
 
     enum ChipSelect
     {
-        CHIP_SELECT_SOFT,
-        CHIP_SELECT_HARD_IN,
-        CHIP_SELECT_HARD_OUT,
+        CS_SOFT,
+        CS_HARD_IN,
+        CS_HARD_OUT,
     };
 
     enum BaudRate
