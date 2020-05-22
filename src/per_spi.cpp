@@ -9,12 +9,11 @@ using namespace daisy;
 
 struct SpiInstance
 {
-    void Init() {}
- SPI_HandleTypeDef  hspi;
-SpiHandle::SpiConfig config;
+    SPI_HandleTypeDef hspi;
+    SpiConfig         config;
 };
 
-void init_spi_pins(SpiInstance* spi);
+void InitSpiPins(SpiInstance* spi);
 
 static SpiInstance instance[3];
 
@@ -34,9 +33,9 @@ void SpiHandle::Init(SpiConfig config)
 
     switch(config.periph)
     {
-        case PERIPH_1: instance_p->hspi.Instance = SPI1; break;
-        case PERIPH_3: instance_p->hspi.Instance = SPI3; break;
-        case PERIPH_6: instance_p->hspi.Instance = SPI6; break;
+        case SpiConfig::PERIPH_1: instance_p->hspi.Instance = SPI1; break;
+        case SpiConfig::PERIPH_3: instance_p->hspi.Instance = SPI3; break;
+        case SpiConfig::PERIPH_6: instance_p->hspi.Instance = SPI6; break;
         default: instance_p->hspi.Instance = SPI1; break;
     }
 
@@ -48,9 +47,13 @@ void SpiHandle::Init(SpiConfig config)
 
     switch(config.chip_select)
     {
-        case CS_SOFT: instance_p->hspi.Init.NSS = SPI_NSS_SOFT; break;
-        case CS_HARD_IN: instance_p->hspi.Init.NSS = SPI_NSS_HARD_INPUT; break;
-        case CS_HARD_OUT:
+        case SpiConfig::CS_SOFT:
+            instance_p->hspi.Init.NSS = SPI_NSS_SOFT;
+            break;
+        case SpiConfig::CS_HARD_IN:
+            instance_p->hspi.Init.NSS = SPI_NSS_HARD_INPUT;
+            break;
+        case SpiConfig::CS_HARD_OUT:
             instance_p->hspi.Init.NSS = SPI_NSS_HARD_OUTPUT;
             break;
         default: instance_p->hspi.Init.NSS = SPI_NSS_HARD_OUTPUT; break;
@@ -58,28 +61,28 @@ void SpiHandle::Init(SpiConfig config)
 
     switch(config.clock_divide)
     {
-        case CLOCK_DIVIDE_2:
+        case SpiConfig::CLOCK_DIVIDE_2:
             instance_p->hspi.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
             break;
-        case CLOCK_DIVIDE_4:
+        case SpiConfig::CLOCK_DIVIDE_4:
             instance_p->hspi.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_4;
             break;
-        case CLOCK_DIVIDE_8:
+        case SpiConfig::CLOCK_DIVIDE_8:
             instance_p->hspi.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_8;
             break;
-        case CLOCK_DIVIDE_16:
+        case SpiConfig::CLOCK_DIVIDE_16:
             instance_p->hspi.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_16;
             break;
-        case CLOCK_DIVIDE_32:
+        case SpiConfig::CLOCK_DIVIDE_32:
             instance_p->hspi.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_32;
             break;
-        case CLOCK_DIVIDE_64:
+        case SpiConfig::CLOCK_DIVIDE_64:
             instance_p->hspi.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_64;
             break;
-        case CLOCK_DIVIDE_128:
+        case SpiConfig::CLOCK_DIVIDE_128:
             instance_p->hspi.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_128;
             break;
-        case CLOCK_DIVIDE_256:
+        case SpiConfig::CLOCK_DIVIDE_256:
             instance_p->hspi.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_256;
             break;
         default:
@@ -126,24 +129,74 @@ void SpiHandle::BlockingTransmit(uint8_t* buff, size_t size)
 
 void HAL_SPI_MspInit(SPI_HandleTypeDef* spiHandle)
 {
-    GPIO_InitTypeDef GPIO_InitStruct = {0};
-    
-    __HAL_RCC_SPI1_CLK_ENABLE();
+    if(spiHandle->Instance == SPI1)
+    {
+        __HAL_RCC_GPIOB_CLK_ENABLE();
+        __HAL_RCC_GPIOG_CLK_ENABLE();
+        InitSpiPins(&instance[SpiConfig::PERIPH_1]);
+        __HAL_RCC_SPI1_CLK_ENABLE();
+    }
+    else if(spiHandle->Instance == SPI3)
+    {
+        __HAL_RCC_GPIOC_CLK_ENABLE();
+        __HAL_RCC_GPIOA_CLK_ENABLE();
+        InitSpiPins(&instance[SpiConfig::PERIPH_3]);
+        __HAL_RCC_SPI3_CLK_ENABLE();
+    }
+    else if(spiHandle->Instance == SPI6)
+    {
+        InitSpiPins(&instance[SpiConfig::PERIPH_6]);
+        __HAL_RCC_SPI6_CLK_ENABLE();
+    }
+}
 
-    __HAL_RCC_GPIOB_CLK_ENABLE();
-    __HAL_RCC_GPIOG_CLK_ENABLE();
+void HAL_SPI_MspDeInit(SPI_HandleTypeDef* spiHandle)
+{
+    /* USER CODE BEGIN SPI1_MspDeInit 0 */
+
+    /* USER CODE END SPI1_MspDeInit 0 */
+    /* Peripheral clock disable */
+    __HAL_RCC_SPI1_CLK_DISABLE();
+
     /**SPI1 GPIO Configuration    
     PB5     ------> SPI1_MOSI
     PB4 (NJTRST)     ------> SPI1_MISO
     PG11     ------> SPI1_SCK
     PG10     ------> SPI1_NSS 
-
     */
-    if(spiHandle->Instance == SPI1) 
+    HAL_GPIO_DeInit(GPIOB, GPIO_PIN_5 | GPIO_PIN_4);
+
+    HAL_GPIO_DeInit(GPIOG, GPIO_PIN_11 | GPIO_PIN_10);
+
+    /* USER CODE BEGIN SPI1_MspDeInit 1 */
+
+    /* USER CODE END SPI1_MspDeInit 1 */
+}
+
+void InitSpiPins(SpiInstance* spi)
+{
+    GPIO_InitTypeDef GPIO_InitStruct;
+    GPIO_TypeDef*    port;
+
+    for(uint8_t i = 0; i < SpiConfig::PIN_LAST; i++)
     {
-        //init_spi_pins(instance[SpiHandle::PERIPH_1]);
+        port                = dsy_hal_map_get_port(spi->config.pins[i]);
+        GPIO_InitStruct.Pin = dsy_hal_map_get_pin(spi->config.pins[i]);
+
+        GPIO_InitStruct.Mode      = GPIO_MODE_AF_PP;
+        GPIO_InitStruct.Pull      = GPIO_NOPULL;
+        GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_LOW;
+        GPIO_InitStruct.Alternate = GPIO_AF5_SPI1;
+        HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
     }
-    switch(spiHandle->Init.Direction)
+
+    /**SPI1 GPIO Configuration    
+    PB5     ------> SPI1_MOSI
+    PB4 (NJTRST)     ------> SPI1_MISO
+    PG11     ------> SPI1_SCK
+    PG10     ------> SPI1_NSS 
+    */
+    switch(spi->hspi.Init.Direction)
     {
         case SPI_DIRECTION_2LINES_TXONLY:
             GPIO_InitStruct.Pin = GPIO_PIN_5;
@@ -170,74 +223,4 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* spiHandle)
     GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_LOW;
     GPIO_InitStruct.Alternate = GPIO_AF5_SPI1;
     HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
-}
-
-void HAL_SPI_MspDeInit(SPI_HandleTypeDef* spiHandle)
-{
-    if(spiHandle->Instance == SPI1)
-    {
-        /* USER CODE BEGIN SPI1_MspDeInit 0 */
-
-        /* USER CODE END SPI1_MspDeInit 0 */
-        /* Peripheral clock disable */
-        __HAL_RCC_SPI1_CLK_DISABLE();
-
-        /**SPI1 GPIO Configuration    
-    PB5     ------> SPI1_MOSI
-    PB4 (NJTRST)     ------> SPI1_MISO
-    PG11     ------> SPI1_SCK
-    PG10     ------> SPI1_NSS 
-    */
-        HAL_GPIO_DeInit(GPIOB, GPIO_PIN_5 | GPIO_PIN_4);
-
-        HAL_GPIO_DeInit(GPIOG, GPIO_PIN_11 | GPIO_PIN_10);
-
-        /* USER CODE BEGIN SPI1_MspDeInit 1 */
-
-        /* USER CODE END SPI1_MspDeInit 1 */
-    }
-    else if(spiHandle->Instance == SPI3)
-    {
-        /* USER CODE BEGIN SPI1_MspDeInit 0 */
-
-        /* USER CODE END SPI1_MspDeInit 0 */
-        /* Peripheral clock disable */
-        __HAL_RCC_SPI3_CLK_DISABLE();
-
-        /**SPI1 GPIO Configuration    
-    PB5     ------> SPI1_MOSI
-    PB4 (NJTRST)     ------> SPI1_MISO
-    PG11     ------> SPI1_SCK
-    PG10     ------> SPI1_NSS 
-    */
-        HAL_GPIO_DeInit(GPIOB, GPIO_PIN_5 | GPIO_PIN_4);
-
-        HAL_GPIO_DeInit(GPIOG, GPIO_PIN_11 | GPIO_PIN_10);
-
-        /* USER CODE BEGIN SPI1_MspDeInit 1 */
-
-        /* USER CODE END SPI1_MspDeInit 1 */
-    }
-    else if(spiHandle->Instance == SPI6)
-    {
-        /* USER CODE BEGIN SPI1_MspDeInit 0 */
-
-        /* USER CODE END SPI1_MspDeInit 0 */
-        /* Peripheral clock disable */
-        __HAL_RCC_SPI6_CLK_DISABLE();
-
-        /**SPI1 GPIO Configuration    
-    PB5     ------> SPI1_MOSI
-    PB4 (NJTRST)     ------> SPI1_MISO
-    PG11     ------> SPI1_SCK
-    PG10     ------> SPI1_NSS 
-    */
-        HAL_GPIO_DeInit(GPIOB, GPIO_PIN_5 | GPIO_PIN_4);
-
-        HAL_GPIO_DeInit(GPIOG, GPIO_PIN_11 | GPIO_PIN_10);
-
-        /* USER CODE BEGIN SPI1_MspDeInit 1 */
-
-        /* USER CODE END SPI1_MspDeInit 1 */
-    }
 }
