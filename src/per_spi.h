@@ -14,7 +14,8 @@
 
 namespace daisy
 {
-class SpiHandle
+
+struct SpiConfig
 {
     enum Periph
     {
@@ -51,19 +52,18 @@ class SpiHandle
         CLOCK_DIVIDE_128,
         CLOCK_DIVIDE_256,
     };
-
+	Periph        periph;
+	ChipSelect    chip_select;
+	ClockDivider  clock_divide;
+	uint8_t       data_size;
+	dsy_gpio_pin *pins;
+};
+class SpiHandle
+{
   public:
+
     SpiHandle() {}
     ~SpiHandle() {}
-
-    struct SpiConfig
-    {
-        Periph        periph;
-        ChipSelect    chip_select;
-        ClockDivider  clock_divide;
-        uint8_t       data_size;
-        dsy_gpio_pin *pins;
-    };
 
     void Init(SpiConfig config);
 

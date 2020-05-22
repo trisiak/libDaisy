@@ -9,9 +9,12 @@ using namespace daisy;
 
 struct SpiInstance
 {
-    SPI_HandleTypeDef    hspi;
-    SpiHandle::SpiConfig config;
+    void Init() {}
+ SPI_HandleTypeDef  hspi;
+SpiHandle::SpiConfig config;
 };
+
+void init_spi_pins(SpiInstance* spi);
 
 static SpiInstance instance[3];
 
@@ -118,7 +121,7 @@ void SpiHandle::Init(SpiConfig config)
 
 void SpiHandle::BlockingTransmit(uint8_t* buff, size_t size)
 {
-    HAL_SPI_Transmit(&hspi1, buff, size, 100);
+    //HAL_SPI_Transmit(&hspi1, buff, size, 100);
 }
 
 void HAL_SPI_MspInit(SPI_HandleTypeDef* spiHandle)
@@ -134,7 +137,12 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* spiHandle)
     PB4 (NJTRST)     ------> SPI1_MISO
     PG11     ------> SPI1_SCK
     PG10     ------> SPI1_NSS 
+
     */
+    if(spiHandle->Instance == SPI1) 
+    {
+        //init_spi_pins(instance[SpiHandle::PERIPH_1]);
+    }
     switch(spiHandle->Init.Direction)
     {
         case SPI_DIRECTION_2LINES_TXONLY:
