@@ -180,13 +180,29 @@ void InitSpiPins(SpiInstance* spi)
 
     for(uint8_t i = 0; i < SpiConfig::PIN_LAST; i++)
     {
-        port                = dsy_hal_map_get_port(spi->config.pins[i]);
-        GPIO_InitStruct.Pin = dsy_hal_map_get_pin(spi->config.pins[i]);
+        port                = dsy_hal_map_get_port(&spi->config.pins[i]);
+        GPIO_InitStruct.Pin = dsy_hal_map_get_pin(&spi->config.pins[i]);
 
-        GPIO_InitStruct.Mode      = GPIO_MODE_AF_PP;
-        GPIO_InitStruct.Pull      = GPIO_NOPULL;
-        GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_LOW;
-        GPIO_InitStruct.Alternate = GPIO_AF5_SPI1;
+        GPIO_InitStruct.Mode  = GPIO_MODE_AF_PP;
+        GPIO_InitStruct.Pull  = GPIO_NOPULL;
+        GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+        // all AF pins get defined to the same address
+        // consider removing switch statement and just assigning to GPIO_AF5_SPI1
+        // regardless of periph
+        switch(spi[i].config.periph)
+        {
+            case SpiConfig::PERIPH_1:
+                GPIO_InitStruct.Alternate = GPIO_AF5_SPI1;
+                break;
+            case SpiConfig::PERIPH_3:
+                GPIO_InitStruct.Alternate = GPIO_AF5_SPI3;
+                break;
+            case SpiConfig::PERIPH_6:
+                GPIO_InitStruct.Alternate = GPIO_AF5_SPI6;
+                break;
+            default: GPIO_InitStruct.Alternate = GPIO_AF5_SPI1; break;
+        }
+
         HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
     }
 
