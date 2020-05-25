@@ -195,10 +195,10 @@ void InitSpiPins(SpiInstance* spi)
                 GPIO_InitStruct.Alternate = GPIO_AF5_SPI1;
                 break;
             case SpiConfig::PERIPH_3:
-                GPIO_InitStruct.Alternate = GPIO_AF5_SPI3;
+                GPIO_InitStruct.Alternate = GPIO_AF6_SPI3;
                 break;
             case SpiConfig::PERIPH_6:
-                GPIO_InitStruct.Alternate = GPIO_AF5_SPI6;
+                GPIO_InitStruct.Alternate = GPIO_AF8_SPI6;
                 break;
             default: GPIO_InitStruct.Alternate = GPIO_AF5_SPI1; break;
         }
