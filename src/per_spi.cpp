@@ -186,9 +186,6 @@ void InitSpiPins(SpiInstance* spi)
         GPIO_InitStruct.Mode  = GPIO_MODE_AF_PP;
         GPIO_InitStruct.Pull  = GPIO_NOPULL;
         GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-        // all AF pins get defined to the same address
-        // consider removing switch statement and just assigning to GPIO_AF5_SPI1
-        // regardless of periph
         switch(spi[i].config.periph)
         {
             case SpiConfig::PERIPH_1:
