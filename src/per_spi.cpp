@@ -152,25 +152,21 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* spiHandle)
 
 void HAL_SPI_MspDeInit(SPI_HandleTypeDef* spiHandle)
 {
-    /* USER CODE BEGIN SPI1_MspDeInit 0 */
-
-    /* USER CODE END SPI1_MspDeInit 0 */
-    /* Peripheral clock disable */
-    __HAL_RCC_SPI1_CLK_DISABLE();
-
-    /**SPI1 GPIO Configuration    
-    PB5     ------> SPI1_MOSI
-    PB4 (NJTRST)     ------> SPI1_MISO
-    PG11     ------> SPI1_SCK
-    PG10     ------> SPI1_NSS 
-    */
-    HAL_GPIO_DeInit(GPIOB, GPIO_PIN_5 | GPIO_PIN_4);
-
-    HAL_GPIO_DeInit(GPIOG, GPIO_PIN_11 | GPIO_PIN_10);
-
-    /* USER CODE BEGIN SPI1_MspDeInit 1 */
-
-    /* USER CODE END SPI1_MspDeInit 1 */
+    if(spiHandle->Instance == SPI1)
+    {
+        __HAL_RCC_SPI1_CLK_DISABLE();
+        DeInitSpiPins(&instance[SpiConfig::PERIPH_1]);
+    }
+    else if(spiHandle->Instance == SPI3)
+    {
+        __HAL_RCC_SPI3_CLK_ENABLE();
+        DeInitSpiPins(&instance[SpiConfig::PERIPH_3]);
+    }
+    else if(spiHandle->Instance == SPI6)
+    {
+        __HAL_RCC_SPI6_CLK_ENABLE();
+        DeInitSpiPins(&instance[SpiConfig::PERIPH_6]);
+    }
 }
 
 void InitSpiPins(SpiInstance* spi)
@@ -200,40 +196,19 @@ void InitSpiPins(SpiInstance* spi)
             default: GPIO_InitStruct.Alternate = GPIO_AF5_SPI1; break;
         }
 
-        HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+        HAL_GPIO_Init(port, &GPIO_InitStruct);
     }
+}
+void DeInitSpiPins(SpiInstance* spi)
+{
+    GPIO_InitTypeDef GPIO_InitStruct;
+    GPIO_TypeDef*    port;
 
-    /**SPI1 GPIO Configuration    
-    PB5     ------> SPI1_MOSI
-    PB4 (NJTRST)     ------> SPI1_MISO
-    PG11     ------> SPI1_SCK
-    PG10     ------> SPI1_NSS 
-    */
-    switch(spi->hspi.Init.Direction)
+    for(uint8_t i = 0; i < SpiConfig::PIN_LAST; i++)
     {
-        case SPI_DIRECTION_2LINES_TXONLY:
-            GPIO_InitStruct.Pin = GPIO_PIN_5;
-            break;
-        case SPI_DIRECTION_2LINES_RXONLY:
-            GPIO_InitStruct.Pin = GPIO_PIN_4;
-            break;
-        default: GPIO_InitStruct.Pin = GPIO_PIN_4 | GPIO_PIN_5; break;
-    }
-    GPIO_InitStruct.Mode      = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull      = GPIO_NOPULL;
-    GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_LOW;
-    GPIO_InitStruct.Alternate = GPIO_AF5_SPI1;
-    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+        port                = dsy_hal_map_get_port(&spi->config.pins[i]);
+        GPIO_InitStruct.Pin = dsy_hal_map_get_pin(&spi->config.pins[i]);
+        HAL_GPIO_DeInit(port, GPIO_InitStruct.Pin);
 
-    // Sck and CS
-    GPIO_InitStruct.Pin = GPIO_PIN_11;
-    if(spiHandle->Init.NSS != SPI_NSS_SOFT)
-    {
-        GPIO_InitStruct.Pin |= GPIO_PIN_10;
     }
-    GPIO_InitStruct.Mode      = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull      = GPIO_NOPULL;
-    GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_LOW;
-    GPIO_InitStruct.Alternate = GPIO_AF5_SPI1;
-    HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
 }
