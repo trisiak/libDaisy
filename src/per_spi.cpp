@@ -122,9 +122,12 @@ void SpiHandle::Init(SpiConfig config)
     }
 }
 
-void SpiHandle::BlockingTransmit(uint8_t* buff, size_t size)
+void SpiHandle::BlockingTransmit(SpiConfig::Periph periph,
+                                 uint8_t*          buff,
+                                 size_t            size)
 {
     //HAL_SPI_Transmit(&hspi1, buff, size, 100);
+    HAL_SPI_Transmit(&instance[periph].hspi, buff, size, 100);
 }
 
 void HAL_SPI_MspInit(SPI_HandleTypeDef* spiHandle)
@@ -209,6 +212,5 @@ void DeInitSpiPins(SpiInstance* spi)
         port                = dsy_hal_map_get_port(&spi->config.pins[i]);
         GPIO_InitStruct.Pin = dsy_hal_map_get_pin(&spi->config.pins[i]);
         HAL_GPIO_DeInit(port, GPIO_InitStruct.Pin);
-
     }
 }
