@@ -148,6 +148,8 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* spiHandle)
     }
     else if(spiHandle->Instance == SPI6)
     {
+        __HAL_RCC_GPIOA_CLK_ENABLE();
+        __HAL_RCC_GPIOB_CLK_ENABLE();
         InitSpiPins(&instance[SpiConfig::PERIPH_6]);
         __HAL_RCC_SPI6_CLK_ENABLE();
     }
