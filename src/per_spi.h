@@ -66,7 +66,7 @@ class SpiHandle
 
     void Init(SpiConfig config);
 
-    void BlockingTransmit(uint8_t *buff, size_t size);
+    void BlockingTransmit(SpiConfig::Periph periph, uint8_t *buff, size_t size);
 
   private:
 };
