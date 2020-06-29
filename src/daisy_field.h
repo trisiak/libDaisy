@@ -170,10 +170,10 @@ FORCE_INLINE void daisy_field_init(daisy_field *p)
         = p->seed.GetPin(KB_SW_SR_CLK_PIN);
     p->keyboard_sr.pin_config[DSY_SR_4021_PIN_DATA]
         = p->seed.GetPin(KB_SW_SR_D1_PIN);
-    p->keyboard_sr.pin_config[DSY_SR_4021_PIN_DATA2]
-        = p->seed.GetPin(KB_SW_SR_D2_PIN);
-    p->keyboard_sr.num_daisychained = 1;
-    p->keyboard_sr.num_parallel     = 2;
+//    p->keyboard_sr.pin_config[DSY_SR_4021_PIN_DATA2]
+//        = p->seed.GetPin(KB_SW_SR_D2_PIN);
+    p->keyboard_sr.num_daisychained = 2;
+    p->keyboard_sr.num_parallel     = 1;
     dsy_sr_4021_init(&p->keyboard_sr);
 
     // Init ADC (currently in daisy_seed).

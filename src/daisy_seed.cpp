@@ -218,7 +218,11 @@ void DaisySeed::ConfigureAudio()
     pin_group[DSY_SAI_PIN_SOUT] = dsy_pin(DSY_GPIOA, 0);
 
     audio_handle.sai        = &sai_handle;
+	#ifdef SEED_REV2
+    audio_handle.dev0_i2c   = &i2c1_handle;
+	#else
     audio_handle.dev0_i2c   = NULL;
+	#endif
     audio_handle.dev1_i2c   = NULL;
     audio_handle.block_size = 48;
     dsy_audio_set_blocksize(DSY_AUDIO_INTERNAL, 48);
