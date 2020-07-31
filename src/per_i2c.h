@@ -84,6 +84,22 @@ class I2CHandle
                             uint16_t size,
                             uint32_t timeout);
 
+    /** Receives data and blocks until the transmission is complete.
+     * 
+     *  \param address      The slave device address.
+     *  \param maddress     The memory address to read from.
+     *  \param maddrsize    The size of the memory address, in bytes.
+     *  \param data         A pointer to the data buffer where the data will be written.
+     *  \param size         The size of the data to be received, in bytes.
+     *  \param timeout      A timeout in ms.
+     */
+    Result MemoryReadBlocking(uint16_t address,
+                              uint16_t maddress,
+                              uint16_t maddrsize,
+                              uint8_t* data,
+                              uint16_t size,
+                              uint32_t timeout);
+
     /** A callback to be executed when a dma transfer is complete. */
     typedef void (*CallbackFunctionPtr)(void* context, Result result);
 

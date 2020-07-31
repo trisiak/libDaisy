@@ -17,6 +17,12 @@ class I2CHandle::Impl
                                        uint8_t* data,
                                        uint16_t size,
                                        uint32_t timeout);
+    I2CHandle::Result MemoryReadBlocking(uint16_t address,
+                                         uint16_t maddress,
+                                         uint16_t maddrsize,
+                                         uint8_t* data,
+                                         uint16_t size,
+                                         uint32_t timeout);
     I2CHandle::Result TransmitDma(uint16_t                       address,
                                   uint8_t*                       data,
                                   uint16_t                       size,
@@ -224,6 +230,29 @@ I2CHandle::Result I2CHandle::Impl::TransmitBlocking(uint16_t address,
         return I2CHandle::Result::ERR;
     return I2CHandle::Result::OK;
 }
+
+I2CHandle::Result I2CHandle::Impl::MemoryReadBlocking(uint16_t address,
+                                                      uint16_t maddress,
+                                                      uint16_t maddrsize,
+                                                      uint8_t* data,
+                                                      uint16_t size,
+                                                      uint32_t timeout)
+{
+    // wait for previous transfer to be finished
+    while(HAL_I2C_GetState(&i2c_hal_handle_) != HAL_I2C_STATE_READY) {};
+
+    if(HAL_I2C_Mem_Read(&i2c_hal_handle_,
+                        address << 1,
+                        maddress,
+                        maddrsize,
+                        data,
+                        size,
+                        timeout)
+       != HAL_OK)
+        return I2CHandle::Result::ERR;
+    return I2CHandle::Result::OK;
+}
+
 
 I2CHandle::Result
 I2CHandle::Impl::TransmitDma(uint16_t                       address,
@@ -517,6 +546,17 @@ I2CHandle::Result I2CHandle::TransmitBlocking(uint16_t address,
                                               uint32_t timeout)
 {
     return pimpl_->TransmitBlocking(address, data, size, timeout);
+}
+
+I2CHandle::Result I2CHandle::MemoryReadBlocking(uint16_t address,
+                                                uint16_t maddress,
+                                                uint16_t maddrsize,
+                                                uint8_t* data,
+                                                uint16_t size,
+                                                uint32_t timeout)
+{
+    return pimpl_->MemoryReadBlocking(
+        address, maddress, maddrsize, data, size, timeout);
 }
 
 I2CHandle::Result
